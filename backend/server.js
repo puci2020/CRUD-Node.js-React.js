@@ -29,7 +29,7 @@ riverRoutes.route('/').get(function (req, res) {
 });
 
 riverRoutes.route('/:id').get(function (req, res) {
-    let id = req.param.id;
+    let id = req.params.id;
     River.findById(id, function (err, river) {
         res.json(river);
     })

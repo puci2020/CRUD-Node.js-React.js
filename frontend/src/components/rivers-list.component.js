@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const River = props => (
+
     <tr>
         <td>{props.river.river_name}</td>
         <td>{props.river.river_length}</td>
@@ -25,7 +26,7 @@ export default class RiversList extends Component {
     componentDidMount() {
         axios.get('http://localhost:8080/rivers/')
             .then(response => {
-                this.setState({ rivers: response.data, });
+                this.setState({ rivers: response.data});
             })
             .catch(function (error){
                 console.log(error);
@@ -48,7 +49,6 @@ export default class RiversList extends Component {
             return <River river={currentRiver} key={i}/>
         })
     }
-
     render() {
         return (
             <div>

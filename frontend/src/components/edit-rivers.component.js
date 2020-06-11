@@ -10,7 +10,7 @@ export default class EditRivers extends Component {
         this.onChangeRiverLength = this.onChangeRiverLength.bind(this);
         this.onChangeRiverDepth = this.onChangeRiverDepth.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.Delete= this.Delete.bind(this);
+        this.Delete = this.Delete.bind(this);
 
         this.state = {
             river_name: '',
@@ -25,36 +25,37 @@ export default class EditRivers extends Component {
                 this.setState({
                     river_name: response.data.river_name,
                     river_length: response.data.river_length,
-                    river_depth: response.data.river_depth,
-                })
+                    river_depth: response.data.river_depth
+                });
             })
             .catch(function (error) {
                 console.log(error);
-            })
+            });
     }
 
 
-    onChangeRiverName(e){
+    onChangeRiverName(e) {
         this.setState({
             river_name: e.target.value
         });
     }
 
-    onChangeRiverLength(e){
+    onChangeRiverLength(e) {
         this.setState({
             river_length: e.target.value
         });
     }
 
-    onChangeRiverDepth(e){
+    onChangeRiverDepth(e) {
         this.setState({
             river_depth: e.target.value
         });
     }
 
 
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault();
+        this.message = null;
         const obj = {
             river_name: this.state.river_name,
             river_length: this.state.river_length,
@@ -63,28 +64,30 @@ export default class EditRivers extends Component {
         axios.post('http://localhost:8080/rivers/update/' + this.props.match.params.id, obj)
             .then(res => console.log(res.data));
 
-        this.props.history.push('/');
-        // window.location.reload(false);
+        this.message = <div className="alert alert-success">River updated!</div>;
+        this.props.history.push('/edit/' + this.props.match.params.id);
     }
 
-    Delete(){
+    Delete() {
+        this.message = null;
         axios.delete('http://localhost:8080/rivers/' + this.props.match.params.id)
             .then(res => console.log(res.data));
 
-        this.props.history.push('/');
-        // window.location.reload(false);
+        this.message = <div className="alert alert-success">River removed!</div>;
+        this.props.history.push('/edit/' + this.props.match.params.id);
     }
 
     render() {
         return (
             <div style={{width: 400}}>
+                {this.message}
                 <h3>Update River</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Name: </label>
                         <input type="text"
                                className="form-control"
-
+                               value={this.state.river_name}
                                onChange={this.onChangeRiverName}/>
                     </div>
                     <div className="form-group">
@@ -104,7 +107,8 @@ export default class EditRivers extends Component {
                     <br/>
                     <div className="form-group">
                         <input type="submit" value="Update River" className="btn btn-primary"/>
-                        <input type="button" style={{marginLeft: 10}} value="Remove River" onClick={this.Delete} className="btn btn-danger"/>
+                        <input type="button" style={{marginLeft: 10}} value="Remove River" onClick={this.Delete}
+                               className="btn btn-danger"/>
                     </div>
                 </form>
             </div>

@@ -39,6 +39,7 @@ export default class CreateRivers extends Component {
     }
 
     onSubmit(e) {
+        this.message = null;
         e.preventDefault();
 
         console.log(`Form submitted: `);
@@ -60,14 +61,16 @@ export default class CreateRivers extends Component {
             river_name: '',
             river_length: '',
             river_depth: '',
-        })
-        this.props.history.push('/');
+        });
+        this.message = <div className="alert alert-success">River added successfully!</div>;
+        this.props.history.push('/create');
     }
 
     render() {
         return (
             <div>
                 <div style={{marginTop: 10, width: 400}}>
+                    {this.message}
                     <h3>Create new River</h3>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
